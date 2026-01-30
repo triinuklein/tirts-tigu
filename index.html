@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8">
+  <title>Koda | Tirts & Tigu</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/logo/logo.PNG" alt="Tirts & Tigu logo">
+      <h1>TIRTS & TIGU</h1>
+    </a>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Koda</a></li>
+      <li><a href="about.html">Tirtsudest ja tigudest</a></li>
+      <li><a href="services.html">Teenused</a></li>
+      <li><a href="projects.html">Jäljed</a></li>
+      <li><a href="contact.html">Sirista meile</a></li>
+      <li><a href="team.html">Meeskond</a></li>
+    </ul>
+  </nav>
+
+  <div class="menu-toggle">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <img src="assets/forest/forest.jpg" alt="Hero background">
+  <div class="hero-content">
+    <h1>Looduse tarkus. Inimeste teekond.</h1>
+    <p>Tirts & Tigu ühendab looduse, kogukonna ja õppimise.</p>
+    <a href="about.html" class="hero-btn">Uuri lähemalt</a>
+  </div>
+</section>
+
+<main>
+
+  <!-- INTRO CARDS -->
+  <section class="intro-cards">
+    <article>
+      <h3>Meist</h3>
+      <p>Meie lugu, juured ja visioon.</p>
+      <a href="about.html">Loe edasi →</a>
+    </article>
+
+    <article>
+      <h3>Teenused</h3>
+      <p>Matkad, õpitoad ja loodusharidus.</p>
+      <a href="services.html">Vaata teenuseid →</a>
+    </article>
+
+    <article>
+      <h3>Jäljed</h3>
+      <p>Projektid, uurimused ja lood.</p>
+      <a href="projects.html">Avasta projekte →</a>
+    </article>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="home-gallery">
+    <h2>Hetked loodusest</h2>
+
+    <div class="gallery-wrapper">
+      <button class="arrow left" onclick="prevImage('gallery1')">←</button>
+      <img id="gallery1" alt="Loodusgalerii">
+      <button class="arrow right" onclick="nextImage('gallery1')">→</button>
+    </div>
+
+    <p class="photo-credit">Fotod: Mari Maasikas</p>
+  </section>
+
+</main>
+
+<footer>
+  <p>&copy; 2025 Tirts & Tigu</p>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
