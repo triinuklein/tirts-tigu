@@ -1,13 +1,14 @@
+// Add your project slugs here
+const projectSlugs = [
+  "test2"
+  // Add more slugs as you create new projects
+];
+
 async function loadProjects() {
   const container = document.getElementById("projects-list");
   if (!container) return;
 
-  // Load the manifest
-  const manifest = await fetch("/content/projects.json")
-    .then(r => r.json())
-    .catch(() => []);
-
-  for (const slug of manifest) {
+  for (const slug of projectSlugs) {
     const md = await fetch(`/content/projects/${slug}/index.md`).then(r => r.text());
 
     const html = md
