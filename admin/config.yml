@@ -2,8 +2,7 @@ backend:
   name: github
   repo: triinuklein/tirts-tigu
   branch: main
-  auth_scope: repo
-
+  open_authoring: true
 
 media_folder: "assets/uploads"
 public_folder: "assets/uploads"
