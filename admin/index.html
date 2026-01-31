@@ -7,6 +7,7 @@
   <body>
     <div id="nc-root"></div>
 
+    <!-- Tell Decap CMS your site lives in a subfolder -->
     <script>
       window.CMS_ENV = {
         SITE_ROOT: "/tirts-tigu/"
@@ -14,6 +15,7 @@
       window.CMS_CONFIG_PATH = "/tirts-tigu/admin/config.yml";
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/decap-cms@3.0.0/dist/decap-cms.js"></script>
+    <!-- Load the correct Decap CMS bundle (NOT the UNPKG one) -->
+    <script src="https://cdn.jsdelivr.net/npm/decap-cms@3.0.0/dist/decap-cms.js?v=2"></script>
   </body>
 </html>
