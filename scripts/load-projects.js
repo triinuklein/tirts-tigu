@@ -1,9 +1,5 @@
 // Add your project slugs here
-const projectSlugs = [
-  "test2",
-  "test3"
-  // Add more slugs as you create new projects
-];
+const projectSlugs = ["test2", "test3"];
 
 async function loadProjects() {
   const container = document.getElementById("projects-list");
