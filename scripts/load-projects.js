@@ -6,7 +6,7 @@ async function loadProjects() {
   if (!container) return;
 
   for (const slug of projectSlugs) {
-    const raw = await fetch(`/content/projects/${slug}/index.md`).then(r => r.text());
+    const raw = await fetch(`content/projects/${slug}/index.md`).then(r => r.text());
 
     // --- 1. Extract front‑matter ---
     const frontMatterMatch = raw.match(/^---([\s\S]*?)---/);
@@ -36,12 +36,12 @@ async function loadProjects() {
     item.className = "project-card";
 
     item.innerHTML = `
-      <img src="/content/projects/${slug}/${frontMatter.image}" alt="${frontMatter.title}">
+      <img src="content/projects/${slug}/${frontMatter.image}" alt="${frontMatter.title}">
       <div class="project-card-content">
         <h3>${frontMatter.title}</h3>
         <p>${htmlBody}</p>
         ${frontMatter.pdf ? `
-          <button class="pdf-open" data-pdf="/content/projects/${slug}/${frontMatter.pdf}">
+          <button class="pdf-open" data-pdf="content/projects/${slug}/${frontMatter.pdf}">
             Ava PDF
           </button>
         ` : ""}
