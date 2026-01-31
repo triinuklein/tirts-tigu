@@ -9,18 +9,47 @@ async function loadProjects() {
   if (!container) return;
 
   for (const slug of projectSlugs) {
-    const md = await fetch(`/content/projects/${slug}/index.md`).then(r => r.text());
+    const raw = await fetch(`/content/projects/${slug}/index.md`).then(r => r.text());
 
-    const html = md
+    // --- 1. Extract front‑matter ---
+    const frontMatterMatch = raw.match(/^---([\s\S]*?)---/);
+    let frontMatter = {};
+    let body = raw;
+
+    if (frontMatterMatch) {
+      const yaml = frontMatterMatch[1].trim();
+      body = raw.replace(frontMatterMatch[0], "").trim();
+
+      yaml.split("\n").forEach(line => {
+        const [key, ...rest] = line.split(":");
+        frontMatter[key.trim()] = rest.join(":").trim();
+      });
+    }
+
+    // --- 2. Convert Markdown body to simple HTML ---
+    const htmlBody = body
       .replace(/^# (.*$)/gim, "<h2>$1</h2>")
       .replace(/^## (.*$)/gim, "<h3>$1</h3>")
       .replace(/\*\*(.*)\*\*/gim, "<strong>$1</strong>")
       .replace(/\*(.*)\*/gim, "<em>$1</em>")
-      .replace(/\n$/gim, "<br>");
+      .replace(/\n/g, "<br>");
 
-    const item = document.createElement("div");
-    item.className = "project-item";
-    item.innerHTML = html;
+    // --- 3. Build your project card ---
+    const item = document.createElement("article");
+    item.className = "project-card";
+
+    item.innerHTML = `
+      <img src="/content/projects/${slug}/${frontMatter.image}" alt="${frontMatter.title}">
+      <div class="project-card-content">
+        <h3>${frontMatter.title}</h3>
+        <p>${htmlBody}</p>
+        ${frontMatter.pdf ? `
+          <button class="pdf-open" data-pdf="/content/projects/${slug}/${frontMatter.pdf}">
+            Ava PDF
+          </button>
+        ` : ""}
+      </div>
+    `;
 
     container.appendChild(item);
   }
