@@ -1,6 +1,7 @@
 // Add your project slugs here
 const projectSlugs = [
-  "test2"
+  "test2",
+  "test3"
   // Add more slugs as you create new projects
 ];
 

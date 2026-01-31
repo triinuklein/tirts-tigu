@@ -73,18 +73,18 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // PDF Modal Logic
+  // PDF Modal Logic (FIXED)
   const pdfModal = document.getElementById("pdf-modal");
   const pdfFrame = document.getElementById("pdf-frame");
   const pdfClose = document.querySelector(".pdf-close");
 
   if (pdfModal && pdfFrame && pdfClose) {
-    document.querySelectorAll(".pdf-open").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const pdf = btn.dataset.pdf;
+    document.addEventListener("click", e => {
+      if (e.target.classList.contains("pdf-open")) {
+        const pdf = e.target.dataset.pdf;
         pdfFrame.src = pdf;
         pdfModal.classList.add("open");
-      });
+      }
     });
 
     const closeModal = () => {
