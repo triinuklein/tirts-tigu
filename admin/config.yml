@@ -1,0 +1,18 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "projects"
+    label: "Projektid"
+    folder: "projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Pealkiri", name: "title", widget: "string" }
+      - { label: "Kuupäev", name: "date", widget: "datetime" }
+      - { label: "Pilt", name: "image", widget: "image" }
+      - { label: "Sisu", name: "body", widget: "markdown" }
