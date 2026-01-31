@@ -12,8 +12,34 @@
       }
     </style>
   </head>
+
   <body>
-    <h1>Simple Admin Page</h1>
-    <p>If you can see this, the admin page is working.</p>
+    <div id="login-screen">
+      <h1>Admin Login</h1>
+      <p>Enter password to continue.</p>
+      <input type="password" id="password-input" placeholder="Password">
+      <button onclick="checkPassword()">Enter</button>
+      <p id="error" style="color:red; display:none;">Wrong password</p>
+    </div>
+
+    <div id="admin-screen" style="display:none;">
+      <h1>Tirts & Tigu Admin</h1>
+      <p>Success! You are logged in.</p>
+      <p>Next we will add the project editor here.</p>
+    </div>
+
+    <script>
+      const PASSWORD = "tirts123"; // ← change this anytime
+
+      function checkPassword() {
+        const input = document.getElementById("password-input").value;
+        if (input === PASSWORD) {
+          document.getElementById("login-screen").style.display = "none";
+          document.getElementById("admin-screen").style.display = "block";
+        } else {
+          document.getElementById("error").style.display = "block";
+        }
+      }
+    </script>
   </body>
 </html>
