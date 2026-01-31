@@ -20,4 +20,3 @@ collections:
       - { label: "Pilt", name: "image", widget: "image" }
       - { label: "PDF", name: "pdf", widget: "file", allow_multiple: false }
       - { label: "Sisu", name: "body", widget: "markdown" }
-
