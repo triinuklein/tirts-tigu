@@ -21,15 +21,49 @@
       <h1>Tirts & Tigu Admin</h1>
       <p>Select a project to edit or create a new one.</p>
 
-      <button id="add-project-btn">+ Add New Project</button>
+      <button id="add-project-btn" onclick="newProject()">+ Add New Project</button>
 
       <div id="project-list" style="margin-top: 20px;">
         <p>Loading projects…</p>
       </div>
     </div>
 
+    <!-- EDITOR SCREEN -->
+    <div id="editor-screen" style="display:none; padding: 40px; max-width: 700px; margin:auto;">
+      <h1 id="editor-title">Edit Project</h1>
+      <p id="editor-status">Loading…</p>
+
+      <div id="editor-form" style="display:none;">
+        <label>Title</label>
+        <input id="edit-title" type="text">
+
+        <label>Date</label>
+        <input id="edit-date" type="text">
+
+        <label>Image URL</label>
+        <input id="edit-image" type="text">
+
+        <label>PDF URL</label>
+        <input id="edit-pdf" type="text">
+
+        <label>Body</label>
+        <textarea id="edit-body" rows="10" style="width:100%;"></textarea>
+
+        <button onclick="saveProject()">Download Updated File</button>
+        <button onclick="backToList()">Back</button>
+      </div>
+    </div>
+
     <script>
-      const PASSWORD = "tirts123"; // change anytime
+      const PASSWORD = "tirts123";
+      let currentProject = null;
+      let isNewProject = false;
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" && document.getElementById("login-screen").style.display !== "none") {
+          checkPassword();
+        }
+      });
 
       function checkPassword() {
         const input = document.getElementById("password-input").value;
@@ -57,7 +91,7 @@
           data.forEach(item => {
             if (item.type === "dir") {
               const div = document.createElement("div");
-              div.style.marginBottom = "10px";
+              div.className = "project-row";
 
               div.innerHTML = `
                 <strong>${item.name}</strong>
@@ -72,8 +106,95 @@
         }
       }
 
-      function editProject(name) {
-        alert("Editor for " + name + " coming next!");
+      async function editProject(name) {
+        isNewProject = false;
+        currentProject = name;
+
+        document.getElementById("admin-screen").style.display = "none";
+        document.getElementById("editor-screen").style.display = "block";
+        document.getElementById("editor-title").innerText = "Edit Project";
+        document.getElementById("editor-status").innerText = "Loading…";
+        document.getElementById("editor-form").style.display = "none";
+
+        try {
+          const response = await fetch(
+            `https://raw.githubusercontent.com/triinuklein/tirts-tigu/main/content/projects/${name}/index.md`
+          );
+          const text = await response.text();
+
+          const frontmatterMatch = text.match(/---([\s\S]*?)---/);
+          const frontmatter = frontmatterMatch ? frontmatterMatch[1] : "";
+          const body = text.replace(/---[\s\S]*?---/, "").trim();
+
+          const title = frontmatter.match(/title:\s*(.*)/)?.[1] || "";
+          const date = frontmatter.match(/date:\s*(.*)/)?.[1] || "";
+          const image = frontmatter.match(/image:\s*(.*)/)?.[1] || "";
+          const pdf = frontmatter.match(/pdf:\s*(.*)/)?.[1] || "";
+
+          document.getElementById("edit-title").value = title;
+          document.getElementById("edit-date").value = date;
+          document.getElementById("edit-image").value = image;
+          document.getElementById("edit-pdf").value = pdf;
+          document.getElementById("edit-body").value = body;
+
+          document.getElementById("editor-status").style.display = "none";
+          document.getElementById("editor-form").style.display = "block";
+
+        } catch (err) {
+          document.getElementById("editor-status").innerText = "Error loading project.";
+        }
+      }
+
+      function newProject() {
+        isNewProject = true;
+        currentProject = prompt("Enter new project folder name (no spaces):");
+
+        if (!currentProject) return;
+
+        document.getElementById("admin-screen").style.display = "none";
+        document.getElementById("editor-screen").style.display = "block";
+        document.getElementById("editor-title").innerText = "Create New Project";
+
+        document.getElementById("edit-title").value = "";
+        document.getElementById("edit-date").value = "";
+        document.getElementById("edit-image").value = "";
+        document.getElementById("edit-pdf").value = "";
+        document.getElementById("edit-body").value = "";
+
+        document.getElementById("editor-status").style.display = "none";
+        document.getElementById("editor-form").style.display = "block";
+      }
+
+      function saveProject() {
+        const title = document.getElementById("edit-title").value;
+        const date = document.getElementById("edit-date").value;
+        const image = document.getElementById("edit-image").value;
+        const pdf = document.getElementById("edit-pdf").value;
+        const body = document.getElementById("edit-body").value;
+
+        const content =
+`---
+title: ${title}
+date: ${date}
+image: ${image}
+pdf: ${pdf}
+---
+
+${body}
+`;
+
+        const blob = new Blob([content], { type: "text/markdown" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = isNewProject ? `${currentProject}-index.md` : `${currentProject}.md`;
+        a.click();
+      }
+
+      function backToList() {
+        document.getElementById("editor-screen").style.display = "none";
+        document.getElementById("admin-screen").style.display = "block";
       }
     </script>
   </body>
