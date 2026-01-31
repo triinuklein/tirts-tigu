@@ -8,7 +8,7 @@ public_folder: "/assets/uploads"
 collections:
   - name: "projects"
     label: "Projektid"
-    folder: "projects"
+    folder: "content/projects"
     create: true
     slug: "{{slug}}"
     fields:
