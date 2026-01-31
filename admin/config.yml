@@ -11,8 +11,12 @@ collections:
     folder: "content/projects"
     create: true
     slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
     fields:
       - { label: "Pealkiri", name: "title", widget: "string" }
       - { label: "Kuupäev", name: "date", widget: "datetime" }
       - { label: "Pilt", name: "image", widget: "image" }
+      - { label: "PDF", name: "pdf", widget: "file", allow_multiple: false }
       - { label: "Sisu", name: "body", widget: "markdown" }

@@ -1,18 +1,17 @@
 async function loadProjects() {
-  const projectsContainer = document.getElementById("projects-list");
-  if (!projectsContainer) return;
+  const container = document.getElementById("projects-list");
+  if (!container) return;
 
-  // Get list of project files
+  // Fetch the list of project folders
   const response = await fetch("/content/projects/");
   const text = await response.text();
 
-  // Extract .md filenames
-  const files = [...text.matchAll(/href="([^"]+\.md)"/g)].map(m => m[1]);
+  // Extract folder names
+  const folders = [...text.matchAll(/href="([^"]+)\/"/g)].map(m => m[1]);
 
-  for (const file of files) {
-    const md = await fetch(`/content/projects/${file}`).then(r => r.text());
+  for (const folder of folders) {
+    const md = await fetch(`/content/projects/${folder}/index.md`).then(r => r.text());
 
-    // Simple markdown → HTML converter
     const html = md
       .replace(/^# (.*$)/gim, "<h2>$1</h2>")
       .replace(/^## (.*$)/gim, "<h3>$1</h3>")
@@ -24,7 +23,7 @@ async function loadProjects() {
     item.className = "project-item";
     item.innerHTML = html;
 
-    projectsContainer.appendChild(item);
+    container.appendChild(item);
   }
 }
 
